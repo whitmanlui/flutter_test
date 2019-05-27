@@ -2,6 +2,9 @@ import 'package:flutter/material.dart';
 import 'tab_item.dart';
 import 'package:vector_math/vector_math.dart' as vector;
 
+import 'translations.dart';
+import 'main.dart';
+
 class FancyTabBar extends StatefulWidget {
   @override
   _FancyTabBarState createState() => _FancyTabBarState();
@@ -18,11 +21,12 @@ class _FancyTabBarState extends State<FancyTabBar>
   Animation<double> _fadeFabInAnimation;
 
   double fabIconAlpha = 1;
-  IconData nextIcon = Icons.search;
-  IconData activeIcon = Icons.search;
+  IconData nextIcon = Icons.home;
+  IconData activeIcon = Icons.home;
 
-  int currentSelected = 1;
+  int currentSelected = 2;
 
+  //MyChildClass({this.callback});
   @override
   void initState() {
     super.initState();
@@ -71,8 +75,8 @@ class _FancyTabBarState extends State<FancyTabBar>
       alignment: Alignment.topCenter,
       children: <Widget>[
         Container(
-          height: 65,
-          margin: EdgeInsets.only(top: 45),
+          height: 60,
+          margin: EdgeInsets.only(top: 50),
           decoration: BoxDecoration(color: Colors.white, boxShadow: [
             BoxShadow(
                 color: Colors.black12, offset: Offset(0, -1), blurRadius: 8)
@@ -82,37 +86,66 @@ class _FancyTabBarState extends State<FancyTabBar>
             crossAxisAlignment: CrossAxisAlignment.center,
             children: <Widget>[
               TabItem(
-                  selected: currentSelected == 0,
+                selected: currentSelected == 0,
+                  iconData: Icons.assignment,
+                  title: Translations.of(context).text('article_tab'),
+                  callbackFunction: () {
+                    setState(() {
+                      nextIcon = Icons.assignment;
+                      currentSelected = 0;
+                      MyHomePage.of(context).tab = currentSelected;
+                    });
+                    _initAnimationAndStart(_positionAnimation.value, -1.2);
+                }
+              ),
+              TabItem(
+                selected: currentSelected == 1,
+                  iconData: Icons.calendar_today,
+                  title: Translations.of(context).text('journey_tab'),
+                  callbackFunction: () {
+                    setState(() {
+                      nextIcon = Icons.calendar_today;
+                      currentSelected = 1;
+                      MyHomePage.of(context).tab = currentSelected;
+                    });
+                    _initAnimationAndStart(_positionAnimation.value, -0.6);
+                }
+              ),
+              TabItem(
+                  selected: currentSelected == 2,
                   iconData: Icons.home,
-                  title: "HOME",
+                  title: Translations.of(context).text('tour_tab'),
                   callbackFunction: () {
                     setState(() {
                       nextIcon = Icons.home;
-                      currentSelected = 0;
-                    });
-                    _initAnimationAndStart(_positionAnimation.value, -1);
-                  }),
-              TabItem(
-                  selected: currentSelected == 1,
-                  iconData: Icons.search,
-                  title: "SEARCH",
-                  callbackFunction: () {
-                    setState(() {
-                      nextIcon = Icons.search;
-                      currentSelected = 1;
+                      currentSelected = 2;
+                      MyHomePage.of(context).tab = currentSelected;
                     });
                     _initAnimationAndStart(_positionAnimation.value, 0);
                   }),
               TabItem(
-                  selected: currentSelected == 2,
+                  selected: currentSelected == 3,
+                  iconData: Icons.shopping_cart ,
+                  title: Translations.of(context).text('cart_tab'),
+                  callbackFunction: () {
+                    setState(() {
+                      nextIcon = Icons.shopping_cart ;
+                      currentSelected = 3;
+                      MyHomePage.of(context).tab = currentSelected;
+                    });
+                    _initAnimationAndStart(_positionAnimation.value, 0.6);
+                  }),
+              TabItem(
+                  selected: currentSelected == 4,
                   iconData: Icons.person,
-                  title: "USER",
+                  title: Translations.of(context).text('me_tab'),
                   callbackFunction: () {
                     setState(() {
                       nextIcon = Icons.person;
-                      currentSelected = 2;
+                      currentSelected = 4;
+                      MyHomePage.of(context).tab = currentSelected;
                     });
-                    _initAnimationAndStart(_positionAnimation.value, 1);
+                    _initAnimationAndStart(_positionAnimation.value, 1.2);
                   })
             ],
           ),
@@ -129,7 +162,7 @@ class _FancyTabBarState extends State<FancyTabBar>
                   alignment: Alignment.center,
                   children: <Widget>[
                     SizedBox(
-                      height: 90,
+                      height: 50,
                       width: 90,
                       child: ClipRect(
                           clipper: HalfClipper(),
